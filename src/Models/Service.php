@@ -9,6 +9,7 @@
 namespace Leo108\CAS\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class Service
@@ -26,6 +27,20 @@ class Service extends Model
         'enabled'     => 'boolean',
         'allow_proxy' => 'boolean',
     ];
+
+    /**
+     * Creates a new instance of the model.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $connection = Config::get('cas.connection');
+        if(!empty($connection)){
+            $this->connection = $connection;
+        }
+        parent::__construct($attributes);
+    }
 
     public function hosts()
     {

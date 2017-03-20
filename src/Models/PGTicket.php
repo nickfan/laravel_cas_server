@@ -10,6 +10,7 @@ namespace Leo108\CAS\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 use Leo108\CAS\Contracts\Models\UserModel;
 
 /**
@@ -35,6 +36,20 @@ class PGTicket extends Model
         'expire_at'  => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    /**
+     * Creates a new instance of the model.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $connection = Config::get('cas.connection');
+        if(!empty($connection)){
+            $this->connection = $connection;
+        }
+        parent::__construct($attributes);
+    }
 
     public function getProxiesAttribute()
     {
